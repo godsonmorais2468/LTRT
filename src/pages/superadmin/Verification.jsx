@@ -2,10 +2,10 @@ import { useState } from 'react'
 import { PageHeader, Card, Badge } from '../../components/ui'
 
 const SEED = [
-  { id: 1, name: 'BNI Trivandrum', diocese: 'Trivandrum', email: 'admin@bnitvm.in', status: 'Pending' },
-  { id: 2, name: 'BNI Kochi', diocese: 'Ernakulam', email: 'admin@bnikochi.in', status: 'Verified' },
-  { id: 3, name: 'BNI Calicut', diocese: 'Kozhikode', email: 'admin@bniclt.in', status: 'Verified' },
-  { id: 4, name: 'BNI Thrissur', diocese: 'Thrissur', email: 'admin@bnitcr.in', status: 'Pending' },
+  { id: 1, name: 'BNI TRIVANDRUM', diocese: 'TRIVANDRUM', email: 'admin@bnitvm.in', status: 'Pending' },
+  { id: 2, name: 'BNI TRIVANDRUM', diocese: 'TRIVANDRUM', email: 'admin@bnitvm.in', status: 'Verified' },
+  { id: 3, name: 'BNI TRIVANDRUM', diocese: 'TRIVANDRUM', email: 'admin@bnitvm.in', status: 'Verified' },
+  { id: 4, name: 'BNI TRIVANDRUM', diocese: 'TRIVANDRUM', email: 'admin@bnitvm.in', status: 'Pending' },
 ]
 
 export default function Verification() {

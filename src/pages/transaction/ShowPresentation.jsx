@@ -2,7 +2,8 @@ import { useState } from 'react'
 import { Play, Filter, Lock } from 'lucide-react'
 import { PageHeader, Button, TableFrame } from '../../components/ui'
 import { useChapters } from '../../context/ChapterContext'
-import { mockHeadTables, mockPresentations } from '../../data/mock'
+import { mockHeadTables, mockPresentations, mockDeck } from '../../data/mock'
+import SlidePlayer from '../../components/SlidePlayer'
 
 /* Colour logic:
    played    → green   (slide show already run)
@@ -82,6 +83,7 @@ function ApprovedBy({ row, tone, nowrap }) {
 export default function ShowPresentation() {
   const { chapters } = useChapters()
   const [played, setPlayed] = useState({})
+  const [playing, setPlaying] = useState(null)
 
   const rows = mockPresentations.map((p) => {
     const match = chapters.find((c) => c.chapter === p.chapter)
@@ -92,8 +94,9 @@ export default function ShowPresentation() {
     }
   })
 
-  function play(id) {
-    setPlayed((p) => ({ ...p, [id]: true }))
+  function play(row) {
+    setPlayed((p) => ({ ...p, [row.id]: true }))
+    setPlaying(row)
   }
 
   const toneFor = (row) => TONES[played[row.id] ? 'played' : row.status] ?? TONES.pending
@@ -148,7 +151,7 @@ export default function ShowPresentation() {
                 >
                   <td className="px-3 py-6 text-[19px] font-bold" style={{ color: tone.muted }}>{i + 1}</td>
                   <td className="px-3 py-6 text-center">
-                    <PlayCell row={row} tone={tone} onPlay={() => play(row.id)} />
+                    <PlayCell row={row} tone={tone} onPlay={() => play(row)} />
                   </td>
                   <td className="px-3 py-6">
                     <span className="text-[34px] lg:text-[42px] font-extrabold tracking-[-0.01em] whitespace-nowrap" style={{ color: tone.chapter }}>
@@ -169,6 +172,12 @@ export default function ShowPresentation() {
         </table>
       </TableFrame>
 
+      <SlidePlayer
+        open={!!playing}
+        onClose={() => setPlaying(null)}
+        deck={{ ...mockDeck, chapter: playing?.chapter ?? mockDeck.chapter }}
+      />
+
       {/* ── Mobile: one card per chapter, no sideways scrolling ── */}
       <div className="md:hidden space-y-3">
         {rows.map((row, i) => {
@@ -180,7 +189,7 @@ export default function ShowPresentation() {
               style={{ background: 'rgba(250,240,196,0.55)', border: '1px solid rgba(21,42,70,0.14)' }}
             >
               <div className="flex items-start gap-4">
-                <PlayCell row={row} tone={tone} onPlay={() => play(row.id)} />
+                <PlayCell row={row} tone={tone} onPlay={() => play(row)} />
                 <div className="min-w-0 flex-1">
                   <p className="text-[13px] font-bold" style={{ color: tone.muted }}>SL No {i + 1}</p>
                   <p

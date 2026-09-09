@@ -4,7 +4,7 @@ import { PageHeader, Card, Button } from '../../components/ui'
 export default function SendInfo() {
   const [sent, setSent] = useState([
     { id: 1, message: 'Slide submission deadline is 9 PM today.', to: 'All Chapters', time: '05-09-2026 10:15' },
-    { id: 2, message: 'Regional meet at Kochi on 20 September.', to: 'Kochi', time: '01-09-2026 16:40' },
+    { id: 2, message: 'Regional meet at TRIVANDRUM on 20 September.', to: 'TRIVANDRUM', time: '01-09-2026 16:40' },
     { id: 3, message: 'New performance dashboard is now live.', to: 'All Chapters', time: '25-08-2026 09:05' },
   ])
   const [message, setMessage] = useState('')

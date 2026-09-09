@@ -1,3 +1,4 @@
+import { createPortal } from 'react-dom'
 import { ArrowRight, ChevronRight, ChevronLeft, TrendingUp, Construction, Sparkles, Search, X, CheckCircle2, AlertTriangle, Info, XCircle } from 'lucide-react'
 
 /* ============================================================
@@ -544,9 +545,11 @@ export function Badge({ children, tone = 'gray' }) {
    ============================================================ */
 export function Modal({ open, onClose, title, children, wide, stage }) {
   if (!open) return null
-  return (
+  /* Portalled to the body: a transformed ancestor would otherwise act as the
+     containing block for `fixed`, leaving the dialog off-centre on screen. */
+  return createPortal(
     <div
-      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4 animate-[fadeIn_0.2s_ease-out]"
+      className="fixed inset-0 z-[90] flex items-end sm:items-center justify-center sm:p-4 animate-[fadeIn_0.2s_ease-out]"
       style={{ background: 'rgba(10,15,30,0.35)', WebkitBackdropFilter: 'blur(8px)', backdropFilter: 'blur(8px)' }}
       onMouseDown={onClose}
     >
@@ -577,7 +580,8 @@ export function Modal({ open, onClose, title, children, wide, stage }) {
         </div>
         <div className="p-6">{children}</div>
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }
 

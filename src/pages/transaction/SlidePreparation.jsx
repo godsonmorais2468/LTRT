@@ -12,6 +12,7 @@ import {
 import { useAuth } from '../../context/AuthContext'
 import { useDesignations } from '../../context/DesignationContext'
 import { mockSlidePreparations, mockHeadTables } from '../../data/mock'
+import SlidePlayer, { PreviewSlide } from '../../components/SlidePlayer'
 
 const ENTRY_OPTIONS = [10, 25, 50, 100]
 
@@ -216,267 +217,6 @@ function Field({ label, children }) {
 }
 
 /* ============================================================
-   SLIDE STAGE — the deck as it is projected in the meeting.
-   Dark editorial canvas, crimson accent rule, tracked caps.
-   ============================================================ */
-const SLIDE_INK = '#F4F5F7'
-const SLIDE_DIM = 'rgba(244,245,247,0.62)'
-
-function Placeholder({ children }) {
-  return <p className="text-[15px] italic" style={{ color: 'rgba(244,245,247,0.35)' }}>{children}</p>
-}
-
-function SlideStage({ index, total, label, chapter, month, children }) {
-  return (
-    <div
-      className="relative w-full overflow-hidden rounded-[18px]"
-      style={{
-        aspectRatio: '16 / 9',
-        background: 'radial-gradient(120% 120% at 8% 0%, #24123B 0%, #140B22 42%, #0B0713 100%)',
-        boxShadow: '0 30px 70px rgba(6,4,14,0.55)',
-      }}
-    >
-      {/* crimson wash + hairline frame */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{ background: 'radial-gradient(70% 90% at 100% 100%, rgba(212,0,63,0.34), transparent 60%)' }}
-      />
-      <div
-        className="absolute inset-[10px] rounded-[12px] pointer-events-none"
-        style={{ border: '1px solid rgba(244,245,247,0.10)' }}
-      />
-      <div
-        className="absolute left-0 top-0 h-full w-[5px]"
-        style={{ background: 'linear-gradient(180deg, #F0003F, #D4003F 45%, #7C3AED)' }}
-      />
-
-      <div className="relative h-full flex flex-col px-[5%] py-[4.5%]">
-        {/* running head */}
-        <div className="flex items-center justify-between shrink-0">
-          <div className="flex items-center gap-2.5 min-w-0">
-            <span
-              className="shrink-0 px-2 py-[3px] rounded-[6px] text-[11px] font-extrabold tracking-[0.14em]"
-              style={{ background: 'linear-gradient(135deg,#F0003F,#A80027)', color: '#fff' }}
-            >
-              BNI
-            </span>
-            <span
-              className="text-[11.5px] font-semibold tracking-[0.22em] uppercase truncate"
-              style={{ color: SLIDE_DIM }}
-            >
-              {chapter}
-            </span>
-          </div>
-          <span className="text-[11.5px] font-semibold tracking-[0.18em] uppercase shrink-0" style={{ color: SLIDE_DIM }}>
-            {month}
-          </span>
-        </div>
-
-        {/* section eyebrow */}
-        <div className="flex items-center gap-3 mt-[3.5%] shrink-0">
-          <span className="h-px w-8 shrink-0" style={{ background: '#F0003F' }} />
-          <span className="text-[11.5px] font-bold tracking-[0.26em] uppercase" style={{ color: '#FF4D77' }}>
-            {label}
-          </span>
-        </div>
-
-        {/* body */}
-        <div className="flex-1 min-h-0 mt-[2.5%] overflow-hidden" style={{ color: SLIDE_INK }}>
-          {children}
-        </div>
-
-        {/* progress rail */}
-        <div className="flex items-center gap-2 shrink-0 pt-[2.5%]">
-          {Array.from({ length: total }).map((_, i) => (
-            <span
-              key={i}
-              className="h-[3px] rounded-full transition-all"
-              style={{
-                flex: i === index ? '0 0 34px' : '0 0 14px',
-                background: i === index ? '#F0003F' : 'rgba(244,245,247,0.20)',
-              }}
-            />
-          ))}
-          <span className="ml-auto text-[11px] font-bold tabular-nums tracking-[0.14em]" style={{ color: SLIDE_DIM }}>
-            {String(index + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
-          </span>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function PersonTile({ person }) {
-  const initials = (person.name || '?').split(' ').filter(Boolean).slice(0, 2).map((w) => w[0]).join('').toUpperCase()
-  return (
-    <div
-      className="rounded-[12px] px-3.5 py-3 min-w-0"
-      style={{ background: 'rgba(244,245,247,0.06)', border: '1px solid rgba(244,245,247,0.12)' }}
-    >
-      <div className="flex items-center gap-2.5">
-        <span
-          className="w-9 h-9 rounded-full flex items-center justify-center text-[12.5px] font-extrabold shrink-0"
-          style={{ background: 'linear-gradient(135deg,#F0003F,#7C3AED)', color: '#fff' }}
-        >
-          {initials}
-        </span>
-        <div className="min-w-0">
-          <p className="text-[15px] font-bold leading-tight truncate">{person.name}</p>
-          <p className="text-[11.5px] tracking-[0.1em] uppercase truncate" style={{ color: '#FF7A9C' }}>
-            {person.designation || '—'}
-          </p>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function RichBody({ html, empty }) {
-  if (!html || !html.replace(/<[^>]*>/g, '').trim()) return <Placeholder>{empty}</Placeholder>
-  return (
-    <div
-      className="text-[17px] leading-relaxed h-full overflow-hidden [&_img]:max-h-[42%] [&_img]:rounded-[10px] [&_ul]:list-disc [&_ol]:list-decimal [&_ul]:pl-6 [&_ol]:pl-6"
-      dangerouslySetInnerHTML={{ __html: html }}
-    />
-  )
-}
-
-/* One rendered slide for a given wizard section */
-function SectionSlide({ tabKey, data, chapter, month }) {
-  const index = TABS.findIndex((t) => t.key === tabKey)
-  const label = TABS[index]?.label ?? ''
-  const stage = (children) => (
-    <SlideStage index={index} total={TABS.length} label={label} chapter={chapter} month={month}>
-      {children}
-    </SlideStage>
-  )
-
-  if (tabKey === 'intro') {
-    return stage(
-      <div className="h-full flex flex-col justify-center">
-        <RichBody html={data.intro.html} empty="Add your opening words in the Intro editor." />
-      </div>
-    )
-  }
-
-  if (tabKey === 'headTable' || tabKey === 'leadershipTeam') {
-    const list = (tabKey === 'headTable' ? data.headTable.filter((r) => r.checked) : data.leadershipTeam).filter((r) => r.name)
-    return stage(
-      list.length ? (
-        <div className="grid grid-cols-3 gap-3 content-start">
-          {list.slice(0, 9).map((r) => <PersonTile key={r.id} person={r} />)}
-        </div>
-      ) : <Placeholder>No members added yet.</Placeholder>
-    )
-  }
-
-  if (tabKey === 'chapterStats') {
-    const { currentStrength, setGoal, rows } = data.chapterStats
-    return stage(
-      <div className="h-full flex flex-col">
-        <div className="flex gap-6 mb-3 shrink-0">
-          <div>
-            <p className="text-[10.5px] tracking-[0.2em] uppercase" style={{ color: SLIDE_DIM }}>Current Strength</p>
-            <p className="text-[30px] font-extrabold leading-none">{currentStrength || '—'}</p>
-          </div>
-          <div>
-            <p className="text-[10.5px] tracking-[0.2em] uppercase" style={{ color: SLIDE_DIM }}>Set Goal</p>
-            <p className="text-[30px] font-extrabold leading-none" style={{ color: '#FF4D77' }}>{setGoal || '—'}</p>
-          </div>
-        </div>
-        <div className="grid grid-cols-3 gap-2.5 content-start">
-          {STAT_ROWS.map((s) => {
-            const value = Number(rows[s.key]) || 0
-            const delta = value - (Number(s.previous) || 0)
-            return (
-              <div
-                key={s.key}
-                className="rounded-[11px] px-3 py-2.5 min-w-0"
-                style={{ background: 'rgba(244,245,247,0.06)', border: '1px solid rgba(244,245,247,0.12)' }}
-              >
-                <p className="text-[10px] tracking-[0.12em] uppercase truncate" style={{ color: SLIDE_DIM }}>{s.label}</p>
-                <div className="flex items-baseline gap-2">
-                  <span className="text-[21px] font-extrabold tabular-nums">{rows[s.key] || 0}</span>
-                  <span
-                    className="text-[11px] font-bold tabular-nums"
-                    style={{ color: delta >= 0 ? '#3DDCA0' : '#FF6B6B' }}
-                  >
-                    {delta > 0 ? `+${delta}` : delta}
-                  </span>
-                </div>
-              </div>
-            )
-          })}
-        </div>
-      </div>
-    )
-  }
-
-  if (tabKey === 'activities') {
-    const list = data.activities.filter((a) => a.title || a.description)
-    return stage(
-      list.length ? (
-        <div className="grid grid-cols-2 gap-3 content-start">
-          {list.slice(0, 6).map((a, i) => (
-            <div key={a.id} className="flex gap-3 min-w-0">
-              <span className="text-[26px] font-extrabold leading-none tabular-nums shrink-0" style={{ color: 'rgba(255,77,119,0.55)' }}>
-                {String(i + 1).padStart(2, '0')}
-              </span>
-              <div className="min-w-0">
-                <p className="text-[16px] font-bold leading-snug truncate">{a.title || 'Untitled'}</p>
-                <p className="text-[12.5px] leading-snug line-clamp-2" style={{ color: SLIDE_DIM }}>{a.description}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      ) : <Placeholder>No activities added yet.</Placeholder>
-    )
-  }
-
-  if (tabKey === 'newInductions') {
-    if (data.newInductions.skipped) return stage(<Placeholder>No inductions this month.</Placeholder>)
-    const list = data.newInductions.entries.filter((e) => e.name)
-    return stage(
-      list.length ? (
-        <div className="grid grid-cols-3 gap-3 content-start">
-          {list.slice(0, 6).map((e) => (
-            <div
-              key={e.id}
-              className="rounded-[12px] px-3.5 py-3 min-w-0"
-              style={{ background: 'rgba(124,58,237,0.16)', border: '1px solid rgba(244,245,247,0.14)' }}
-            >
-              <p className="text-[15px] font-bold leading-tight truncate">{e.name}</p>
-              <p className="text-[12px] truncate" style={{ color: SLIDE_DIM }}>{e.organization || '—'}</p>
-              <p className="text-[10.5px] tracking-[0.12em] uppercase mt-1 truncate" style={{ color: '#FF7A9C' }}>{e.category || '—'}</p>
-            </div>
-          ))}
-        </div>
-      ) : <Placeholder>No inductions added yet.</Placeholder>
-    )
-  }
-
-  if (tabKey === 'upcoming') {
-    return stage(
-      <div className="h-full flex flex-col justify-center">
-        <RichBody html={data.upcoming.html} empty="Add planned events in the Upcoming editor." />
-      </div>
-    )
-  }
-
-  const { mainHeading, line1, line2 } = data.conclusion
-  return stage(
-    <div className="h-full flex flex-col items-center justify-center text-center">
-      <p className="text-[42px] font-extrabold leading-none tracking-[-0.02em]">
-        {mainHeading || <span style={{ color: 'rgba(244,245,247,0.35)' }}>Thank You</span>}
-      </p>
-      {line1 && <p className="text-[17px] mt-3" style={{ color: SLIDE_DIM }}>{line1}</p>}
-      {line2 && <p className="text-[17px]" style={{ color: SLIDE_DIM }}>{line2}</p>}
-      <span className="mt-5 h-px w-16" style={{ background: '#F0003F' }} />
-    </div>
-  )
-}
-
-/* ============================================================
    MEMBER CARD — used by Head Table + Leadership Team
    ============================================================ */
 function MemberCard({ row, designations, onChange, onRemove }) {
@@ -526,6 +266,7 @@ export default function SlidePreparation() {
   const [data, setData] = useState(() => blankData(chapterName))
   const [previewTab, setPreviewTab] = useState(null)
   const [deckOpen, setDeckOpen] = useState(false)
+  const [playing, setPlaying] = useState(false)
   const [editingSlideId, setEditingSlideId] = useState(null)
   /* Sections stay locked until the one before them is saved with Save & Next. */
   const [unlocked, setUnlocked] = useState(['intro'])
@@ -535,6 +276,22 @@ export default function SlidePreparation() {
   const [perPage, setPerPage] = useState(10)
   const [page, setPage] = useState(1)
   const [confirmDelete, setConfirmDelete] = useState(null)
+
+  /* The preview renders the real slide, so wizard state is shaped into a deck. */
+  const previewDeck = useMemo(() => ({
+    region: 'TRIVANDRUM',
+    chapter: chapterName.toUpperCase(),
+    month: new Date(`${month}-01`).toLocaleDateString('en-US', { month: 'long' }),
+    year: month.slice(0, 4),
+    currentStrength: data.chapterStats.currentStrength || '—',
+    setGoal: data.chapterStats.setGoal || '—',
+    headTable: data.headTable.filter((r) => r.checked && r.name),
+    leadershipTeam: data.leadershipTeam.filter((r) => r.name),
+    activities: data.activities.filter((a) => a.title || a.description),
+    inductions: data.newInductions.skipped ? [] : data.newInductions.entries.filter((e) => e.name),
+    upcomingHtml: data.upcoming.html,
+    conclusion: data.conclusion.mainHeading ? data.conclusion : { ...data.conclusion, mainHeading: 'Thank You' },
+  }), [data, month, chapterName])
 
   const activeIndex = TABS.findIndex((t) => t.key === activeTab)
   const isLast = activeIndex === TABS.length - 1
@@ -931,7 +688,7 @@ export default function SlidePreparation() {
                       <td className={`${tableCellClass} text-center`}>
                         <div className="flex justify-center">
                           <button
-                            onClick={() => { setData(row.data); setDeckOpen(true) }}
+                            onClick={() => setPlaying(true)}
                             className="w-8 h-8 rounded-full flex items-center justify-center text-white transition-transform hover:scale-110 active:scale-95"
                             style={{ background: 'linear-gradient(135deg, #F0003F, #D4003F 55%, #A80027)' }}
                           >
@@ -961,26 +718,24 @@ export default function SlidePreparation() {
         </SectionCard>
       </div>
 
-      {/* Section preview — the single slide as it will be projected */}
+      {/* Section preview — the exact slide the audience will see */}
       <Modal
         open={!!previewTab}
         onClose={() => setPreviewTab(null)}
         title={`Slide Preview — ${TABS.find((t) => t.key === previewTab)?.label ?? ''}`}
         stage
       >
-        {previewTab && (
-          <SectionSlide tabKey={previewTab} data={data} chapter={chapterName.toUpperCase()} month={fmtMonth(month)} />
-        )}
+        {previewTab && <PreviewSlide tabKey={previewTab} deck={previewDeck} />}
       </Modal>
 
       {/* Full deck — every section, one slide after another */}
       <Modal open={deckOpen} onClose={() => setDeckOpen(false)} title="Slide Deck Preview" stage>
         <div className="space-y-4">
-          {TABS.map((t) => (
-            <SectionSlide key={t.key} tabKey={t.key} data={data} chapter={chapterName.toUpperCase()} month={fmtMonth(month)} />
-          ))}
+          {TABS.map((t) => <PreviewSlide key={t.key} tabKey={t.key} deck={previewDeck} />)}
         </div>
       </Modal>
+
+      <SlidePlayer open={playing} onClose={() => setPlaying(false)} />
 
       <Modal open={!!confirmDelete} onClose={() => setConfirmDelete(null)} title="Confirm Delete">
         <p className="text-[13.5px] text-[var(--ltrt-text-secondary)] mb-5">

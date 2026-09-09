@@ -5,10 +5,7 @@
    ============================================================ */
 
 export const mockRegions = [
-  { id: 1, code: 'RG01', name: 'Trivandrum', active: true },
-  { id: 2, code: 'RG02', name: 'Kochi', active: true },
-  { id: 3, code: 'RG03', name: 'Calicut', active: true },
-  { id: 4, code: 'RG04', name: 'Thrissur', active: true },
+  { id: 1, code: 'RG01', name: 'TRIVANDRUM', active: true },
 ]
 
 export const mockDesignations = [
@@ -41,20 +38,20 @@ export const mockHeadTables = {
 }
 
 export const mockChapters = [
-  { id: 1, code: 'CH01', chapter: 'MILESTONES', region: 'Trivandrum', photo: 'milestones-logo.png', description: 'Flagship Trivandrum chapter', active: true },
-  { id: 2, code: 'CH02', chapter: 'MAJESTIC', region: 'Trivandrum', photo: 'majestic-logo.png', description: 'Top performing chapter', active: true },
-  { id: 3, code: 'CH03', chapter: 'MASCOTS', region: 'Trivandrum', photo: 'mascots-logo.png', description: 'Growing chapter', active: true },
-  { id: 4, code: 'CH04', chapter: 'MANDRAKES', region: 'Kochi', photo: 'mandrakes-logo.png', description: 'Kochi city chapter', active: true },
-  { id: 5, code: 'CH05', chapter: 'MERIDIAN', region: 'Kochi', photo: 'meridian-logo.png', description: 'Kochi south chapter', active: true },
-  { id: 6, code: 'CH06', chapter: 'MONARCHS', region: 'Kochi', photo: 'monarchs-logo.png', description: 'Business leaders chapter', active: true },
-  { id: 7, code: 'CH07', chapter: 'MUSTANGS', region: 'Calicut', photo: 'mustangs-logo.png', description: 'Calicut main chapter', active: true },
-  { id: 8, code: 'CH08', chapter: 'MAGNUM', region: 'Calicut', photo: 'magnum-logo.png', description: 'Calicut north chapter', active: true },
-  { id: 9, code: 'CH09', chapter: 'MYSTICS', region: 'Calicut', photo: 'mystics-logo.png', description: 'Emerging chapter', active: true },
-  { id: 10, code: 'CH10', chapter: 'MAGICIANS', region: 'Thrissur', photo: 'magicians-logo.png', description: 'Thrissur central chapter', active: true },
-  { id: 11, code: 'CH11', chapter: 'MILLIONARIES', region: 'Thrissur', photo: 'millionaries-logo.png', description: 'Thrissur east chapter', active: true },
-  { id: 12, code: 'CH12', chapter: 'MIRACLES', region: 'Thrissur', photo: 'miracles-logo.png', description: 'Thrissur west chapter', active: false },
-  { id: 13, code: 'CH13', chapter: 'MAVERICKS', region: 'Trivandrum', photo: 'mavericks-logo.png', description: 'Startup founders chapter', active: true },
-  { id: 14, code: 'CH14', chapter: 'MARVELS', region: 'Kochi', photo: 'marvels-logo.png', description: 'Kochi north chapter', active: true },
+  { id: 1, code: 'CH01', chapter: 'MILESTONES', region: 'TRIVANDRUM', photo: 'milestones-logo.png', description: 'Flagship chapter', active: true },
+  { id: 2, code: 'CH02', chapter: 'MAJESTIC', region: 'TRIVANDRUM', photo: 'majestic-logo.png', description: 'Top performing chapter', active: true },
+  { id: 3, code: 'CH03', chapter: 'MASCOTS', region: 'TRIVANDRUM', photo: 'mascots-logo.png', description: 'Growing chapter', active: true },
+  { id: 4, code: 'CH04', chapter: 'MANDRAKES', region: 'TRIVANDRUM', photo: 'mandrakes-logo.png', description: 'Trivandrum city chapter', active: true },
+  { id: 5, code: 'CH05', chapter: 'MERIDIAN', region: 'TRIVANDRUM', photo: 'meridian-logo.png', description: 'Trivandrum south chapter', active: true },
+  { id: 6, code: 'CH06', chapter: 'MONARCHS', region: 'TRIVANDRUM', photo: 'monarchs-logo.png', description: 'Business leaders chapter', active: true },
+  { id: 7, code: 'CH07', chapter: 'MUSTANGS', region: 'TRIVANDRUM', photo: 'mustangs-logo.png', description: 'Trivandrum east chapter', active: true },
+  { id: 8, code: 'CH08', chapter: 'MAGNUM', region: 'TRIVANDRUM', photo: 'magnum-logo.png', description: 'Trivandrum north-east chapter', active: true },
+  { id: 9, code: 'CH09', chapter: 'MYSTICS', region: 'TRIVANDRUM', photo: 'mystics-logo.png', description: 'Emerging chapter', active: true },
+  { id: 10, code: 'CH10', chapter: 'MAGICIANS', region: 'TRIVANDRUM', photo: 'magicians-logo.png', description: 'Trivandrum central chapter', active: true },
+  { id: 11, code: 'CH11', chapter: 'MILLIONARIES', region: 'TRIVANDRUM', photo: 'millionaries-logo.png', description: 'Trivandrum outer chapter', active: true },
+  { id: 12, code: 'CH12', chapter: 'MIRACLES', region: 'TRIVANDRUM', photo: 'miracles-logo.png', description: 'Trivandrum west chapter', active: false },
+  { id: 13, code: 'CH13', chapter: 'MAVERICKS', region: 'TRIVANDRUM', photo: 'mavericks-logo.png', description: 'Startup founders chapter', active: true },
+  { id: 14, code: 'CH14', chapter: 'MARVELS', region: 'TRIVANDRUM', photo: 'marvels-logo.png', description: 'Trivandrum north chapter', active: true },
 ]
 
 /* Show Presentation rows — status drives the colour logic */
@@ -118,9 +115,9 @@ export const mockSlidePreparations = [
 ]
 
 export const mockVerifications = [
-  { id: 1, org: 'BNI Trivandrum', requestedBy: 'Dr Majinu G. Sarath', date: '2026-09-02', status: 'Pending' },
-  { id: 2, org: 'BNI Kochi', requestedBy: 'Rajesh Nair', date: '2026-08-28', status: 'Verified' },
-  { id: 3, org: 'BNI Calicut', requestedBy: 'Hari Prasad', date: '2026-08-21', status: 'Verified' },
+  { id: 1, org: 'BNI TRIVANDRUM', requestedBy: 'Dr Majinu G. Sarath', date: '2026-09-02', status: 'Pending' },
+  { id: 2, org: 'BNI TRIVANDRUM', requestedBy: 'Rajesh Nair', date: '2026-08-28', status: 'Verified' },
+  { id: 3, org: 'BNI TRIVANDRUM', requestedBy: 'Hari Prasad', date: '2026-08-21', status: 'Verified' },
 ]
 
 export const mockVouchers = [
@@ -138,18 +135,18 @@ export const mockLicenseKeys = [
 
 export const mockSentInfo = [
   { id: 1, subject: 'Slide submission deadline', audience: 'All Chapters', date: '2026-09-05', channel: 'Push' },
-  { id: 2, subject: 'Regional meet — Kochi', audience: 'Kochi', date: '2026-09-01', channel: 'Email' },
+  { id: 2, subject: 'Regional meet — TRIVANDRUM', audience: 'TRIVANDRUM', date: '2026-09-01', channel: 'Email' },
   { id: 3, subject: 'New performance dashboard', audience: 'All Chapters', date: '2026-08-25', channel: 'SMS' },
 ]
 
 /* ---------- CRUD page seeds ---------- */
 export const seeds = {
   chapter: [
-    { id: 1, name: 'MILESTONES', code: 'CH01', district: 'Trivandrum', members: 18, status: true },
-    { id: 2, name: 'MAJESTIC', code: 'CH02', district: 'Trivandrum', members: 42, status: true },
-    { id: 3, name: 'MASCOTS', code: 'CH03', district: 'Trivandrum', members: 35, status: true },
-    { id: 4, name: 'MANDRAKES', code: 'CH04', district: 'Ernakulam', members: 28, status: true },
-    { id: 5, name: 'MERIDIAN', code: 'CH05', district: 'Ernakulam', members: 31, status: true },
+    { id: 1, name: 'MILESTONES', code: 'CH01', district: 'TRIVANDRUM', members: 18, status: true },
+    { id: 2, name: 'MAJESTIC', code: 'CH02', district: 'TRIVANDRUM', members: 42, status: true },
+    { id: 3, name: 'MASCOTS', code: 'CH03', district: 'TRIVANDRUM', members: 35, status: true },
+    { id: 4, name: 'MANDRAKES', code: 'CH04', district: 'TRIVANDRUM', members: 28, status: true },
+    { id: 5, name: 'MERIDIAN', code: 'CH05', district: 'TRIVANDRUM', members: 31, status: true },
   ],
   members: [
     { id: 1, name: 'Dr Majinu G. Sarath', family: 'Sarath', phone: '9895012347', dob: '1978-04-12', address: 'Kowdiar, Trivandrum', status: true },
@@ -242,14 +239,10 @@ export const seeds = {
     { id: 2, name: 'Cyberpark Partners', acno: 'RS-1002', mobile: '9895000222', email: 'info@cyberpark.in', status: true },
   ],
   diocese: [
-    { id: 1, name: 'Trivandrum', state: 'Kerala', bishop: 'Most Rev. Thomas Netto', status: true },
-    { id: 2, name: 'Ernakulam', state: 'Kerala', bishop: 'Most Rev. Joseph Kalathiparambil', status: true },
+    { id: 1, name: 'TRIVANDRUM', state: 'Kerala', bishop: 'Most Rev. Thomas Netto', status: true },
   ],
   district: [
     { id: 1, name: 'Thiruvananthapuram', state: 'Kerala', status: true },
-    { id: 2, name: 'Ernakulam', state: 'Kerala', status: true },
-    { id: 3, name: 'Kozhikode', state: 'Kerala', status: true },
-    { id: 4, name: 'Thrissur', state: 'Kerala', status: true },
   ],
   state: [
     { id: 1, name: 'Kerala', country: 'India', status: true },
@@ -262,7 +255,7 @@ export const seeds = {
   ],
   property: [
     { id: 1, name: 'Sarath Residency', type: 'Apartment', units: 12, address: 'Kowdiar, Trivandrum', status: true },
-    { id: 2, name: 'Majestic Plaza', type: 'Commercial', units: 8, address: 'MG Road, Kochi', status: true },
+    { id: 2, name: 'Majestic Plaza', type: 'Commercial', units: 8, address: 'MG Road, Trivandrum', status: true },
   ],
   tenant: [
     { id: 1, name: 'Anoop N E', unit: 'A-201', rent: 18000, due: '2027-03-31', status: true },
@@ -273,9 +266,9 @@ export const seeds = {
     { id: 2, tenant: 'Shibu S', amount: 22000, date: '2026-09-03', mode: 'Bank Transfer' },
   ],
   billing: [
-    { id: 1, org: 'BNI Trivandrum', plan: 'Annual', amount: 48000, date: '2026-04-01', status: 'Paid' },
-    { id: 2, org: 'BNI Kochi', plan: 'Annual', amount: 48000, date: '2026-04-01', status: 'Paid' },
-    { id: 3, org: 'BNI Calicut', plan: 'Annual', amount: 36000, date: '2026-04-05', status: 'Pending' },
+    { id: 1, org: 'BNI TRIVANDRUM', plan: 'Annual', amount: 48000, date: '2026-04-01', status: 'Paid' },
+    { id: 2, org: 'BNI TRIVANDRUM', plan: 'Annual', amount: 48000, date: '2026-04-01', status: 'Paid' },
+    { id: 3, org: 'BNI TRIVANDRUM', plan: 'Annual', amount: 36000, date: '2026-04-05', status: 'Pending' },
   ],
 }
 
@@ -397,16 +390,14 @@ export const dirRows = {
     { id: 5, name: 'Faisal A', family: 'Ahmed', phone: '9895012352' },
   ],
   parishList: [
-    { id: 1, name: "St. Mary's Kowdiar", district: 'Thiruvananthapuram', vicar: 'Fr. Thomas Joseph' },
-    { id: 2, name: 'St. George Pattom', district: 'Thiruvananthapuram', vicar: 'Fr. Jacob Mathew' },
+    { id: 1, name: "St. Mary's Kowdiar", district: 'TRIVANDRUM', vicar: 'Fr. Thomas Joseph' },
+    { id: 2, name: 'St. George Pattom', district: 'TRIVANDRUM', vicar: 'Fr. Jacob Mathew' },
   ],
   dioceseList: [
-    { id: 1, name: 'Trivandrum', bishop: 'Most Rev. Thomas Netto', state: 'Kerala' },
-    { id: 2, name: 'Ernakulam', bishop: 'Most Rev. Joseph Kalathiparambil', state: 'Kerala' },
+    { id: 1, name: 'TRIVANDRUM', bishop: 'Most Rev. Thomas Netto', state: 'Kerala' },
   ],
   bishopList: [
-    { id: 1, name: 'Most Rev. Thomas Netto', diocese: 'Trivandrum' },
-    { id: 2, name: 'Most Rev. Joseph Kalathiparambil', diocese: 'Ernakulam' },
+    { id: 1, name: 'Most Rev. Thomas Netto', diocese: 'TRIVANDRUM' },
   ],
   clergyList: [
     { id: 1, name: 'Fr. Thomas Joseph', role: 'Vicar', parish: "St. Mary's Kowdiar" },
@@ -443,3 +434,54 @@ export const mockTeamRows = [
   { id: 5, chapter: 'MAJESTIC', designation: 'Vice-President', name: 'Anoop N E', photo: 'anoop.jpg', organization: 'Anoop Interiors', username: 'anoop', password: 'demo1234', active: true },
   { id: 6, chapter: 'MASCOTS', designation: 'President', name: 'Jose Shibu M R', photo: 'jose.jpg', organization: 'Shibu Motors', username: 'jose', password: 'demo1234', active: true },
 ]
+
+/* ============================================================
+   PRESENTATION DECK — content played by the slide show.
+   TRIVANDRUM region only.
+   ============================================================ */
+export const mockDeckStats = [
+  { key: 'business', label: 'Business (TYFCB)', unit: '₹', goal: 20000000, previous: 3510924, current: 5538564 },
+  { key: 'visitors', label: 'Visitors Per Month', unit: '', goal: 10, previous: 12, current: 27 },
+  { key: 'referrals', label: 'Referrals', unit: '', goal: 50, previous: 73, current: 169 },
+  { key: 'memberAddition', label: 'Member Addition', unit: '', goal: 5, previous: 2, current: 5 },
+  { key: 'absenteeism', label: 'Absenteeism', unit: '%', goal: 0, previous: -2.10, current: -5.33 },
+  { key: 'memberDrops', label: 'Member Drops', unit: '', goal: 0, previous: 0, current: -2 },
+]
+
+export const mockDeck = {
+  region: 'TRIVANDRUM',
+  chapter: 'MYSTICS',
+  month: 'October',
+  year: '2026',
+  currentStrength: 18,
+  setGoal: 40,
+  headTable: [
+    { id: 1, name: 'Prakash Pillai', designation: 'President' },
+    { id: 2, name: 'Aswathy Nair', designation: 'Vice-President' },
+    { id: 3, name: 'Binu Chandran', designation: 'Secretary /Treasurer' },
+  ],
+  leadershipTeam: [
+    { id: 1, name: 'Sauparnika Puthur', designation: 'Membership Committee' },
+    { id: 2, name: 'Faisal A', designation: 'Visitor Host' },
+    { id: 3, name: 'Arun Kumar N R', designation: 'Mentor Coordinator' },
+    { id: 4, name: 'Aneesh', designation: 'Education Coordinator' },
+    { id: 5, name: 'Jose Shibu M R', designation: 'Growth Coordinator' },
+    { id: 6, name: 'Yoonus', designation: 'Event Coordinator' },
+  ],
+  activities: [
+    { id: 1, title: 'Business Mixer 2026', description: 'Cross-chapter networking evening at Hotel Residency with 140 visitors.' },
+    { id: 2, title: 'Leadership Training', description: 'Full-day workshop for the incoming leadership team.' },
+    { id: 3, title: 'Visitors Day', description: 'Record 27 visitors hosted across the month.' },
+    { id: 4, title: 'CSR Blood Drive', description: 'Members and families donated 62 units with the district hospital.' },
+  ],
+  inductions: [
+    { id: 1, name: 'Rahul Menon', organization: 'Menon Architects', category: 'Architecture' },
+    { id: 2, name: 'Divya Suresh', organization: 'Suresh Logistics', category: 'Logistics' },
+    { id: 3, name: 'Nithin Jose', organization: 'Jose Digital', category: 'Digital Marketing' },
+  ],
+  conclusion: {
+    mainHeading: 'Thank You',
+    line1: 'Givers Gain — together we grow.',
+    line2: 'See you at next week’s meeting.',
+  },
+}
