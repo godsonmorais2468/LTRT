@@ -1,0 +1,265 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+/* ============================================================
+   LTRT 2.0 — GLOBAL DESIGN TOKENS
+   Single source of truth. Never hardcode a colour on a page.
+   ============================================================ */
+:root {
+  color-scheme: light;
+
+  --ltrt-red: #D4003F;
+  --ltrt-red-dark: #85001F;
+  --ltrt-red-deep: #570014;
+  --ltrt-red-bright: #F00046;
+
+  --ltrt-white: #FFFFFF;
+  --ltrt-glass-white: rgba(255, 255, 255, 0.68);
+  --ltrt-glass-white-soft: rgba(255, 255, 255, 0.48);
+  --ltrt-glass-white-strong: rgba(255, 255, 255, 0.82);
+
+  --ltrt-gold: #D9A72A;
+  --ltrt-gold-light: #F5DFA0;
+  --ltrt-gold-soft: rgba(217, 167, 42, 0.18);
+
+  --ltrt-navy: #10233F;
+  --ltrt-text: #152A46;
+  --ltrt-text-secondary: #6E7E95;
+
+  --ltrt-border: rgba(255, 255, 255, 0.65);
+  --ltrt-border-soft: rgba(255, 255, 255, 0.45);
+
+  --ltrt-background: #F7F9FC;
+
+  --ltrt-success: #19B985;
+  --ltrt-warning: #F2A900;
+  --ltrt-danger: #E83C5B;
+
+  --ltrt-radius-sm: 10px;
+  --ltrt-radius-md: 14px;
+  --ltrt-radius-lg: 20px;
+  --ltrt-radius-xl: 26px;
+
+  --ltrt-shadow-sm: 0 2px 10px rgba(21, 42, 70, 0.05);
+  --ltrt-shadow-md: 0 8px 30px rgba(21, 42, 70, 0.07);
+  --ltrt-shadow-lg: 0 18px 50px rgba(21, 42, 70, 0.10);
+  --ltrt-shadow-red: 0 8px 24px rgba(180, 0, 45, 0.28);
+
+  --ltrt-font-display: 'Poppins', 'Inter', system-ui, sans-serif;
+
+  --ltrt-transition-fast: 180ms;
+  --ltrt-transition-normal: 280ms;
+  --ltrt-transition-slow: 450ms;
+  --ltrt-ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ============================================================
+   BASE + LAYERED APPLICATION BACKGROUND
+   ============================================================ */
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, 'Segoe UI', Roboto, sans-serif;
+  color: var(--ltrt-text);
+  background: var(--ltrt-background);
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  min-height: 100svh;
+}
+
+/* Soft light behind every glass surface — fixed so it never scrolls away */
+.ltrt-backdrop {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-color: #F7F9FC;
+  background-image: url('./assets/bg.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Readability veil so glass cards keep their contrast over the artwork */
+.ltrt-backdrop::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* ============================================================
+   GLASS SYSTEM — the defining surface of LTRT 2.0
+   ============================================================ */
+.glass {
+  position: relative;
+  isolation: isolate; /* keeps the ::before highlight below content without touching children */
+  background: var(--ltrt-glass-white);
+  -webkit-backdrop-filter: blur(24px) saturate(170%);
+  backdrop-filter: blur(24px) saturate(170%);
+  border: 1px solid var(--ltrt-border);
+  box-shadow: var(--ltrt-shadow-md);
+}
+
+/* Illuminated top-left highlight, the thing that sells real glass */
+.glass::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.22) 42%, transparent 70%);
+  opacity: 0.75;
+  pointer-events: none;
+  transition: opacity var(--ltrt-transition-normal) var(--ltrt-ease);
+}
+
+.glass-soft {
+  background: var(--ltrt-glass-white-soft);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  backdrop-filter: blur(18px) saturate(150%);
+  border: 1px solid var(--ltrt-border-soft);
+}
+
+.glass-strong {
+  background: var(--ltrt-glass-white-strong);
+  -webkit-backdrop-filter: blur(30px) saturate(180%);
+  backdrop-filter: blur(30px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: var(--ltrt-shadow-lg);
+}
+
+/* Hover: brighter highlight + deeper shadow + 2px lift. Never a flat colour swap. */
+.glass-hover {
+  transition:
+    transform var(--ltrt-transition-normal) var(--ltrt-ease),
+    box-shadow var(--ltrt-transition-normal) var(--ltrt-ease),
+    border-color var(--ltrt-transition-normal) var(--ltrt-ease);
+}
+
+.glass-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--ltrt-shadow-lg);
+  border-color: rgba(255, 255, 255, 0.9);
+}
+
+.glass-hover:hover::before {
+  opacity: 1;
+}
+
+/* Crimson glass — primary actions and section headers */
+.glass-red {
+  position: relative;
+  isolation: isolate;
+  background: linear-gradient(135deg, var(--ltrt-red-bright) 0%, var(--ltrt-red) 45%, var(--ltrt-red-dark) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: var(--ltrt-shadow-red);
+  overflow: hidden;
+}
+
+.glass-red::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.32), rgba(255, 255, 255, 0.04) 45%, transparent 70%);
+  pointer-events: none;
+  transition: opacity var(--ltrt-transition-normal) var(--ltrt-ease);
+}
+
+/* Champagne glass table header — used by every table in the app */
+.ltrt-champagne {
+  background: linear-gradient(180deg, rgba(245, 223, 160, 0.42), rgba(217, 167, 42, 0.16));
+  color: #7A5A12;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+/* ============================================================
+   SCROLLBAR + MISC
+   ============================================================ */
+::-webkit-scrollbar { height: 8px; width: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(21, 42, 70, 0.16);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(21, 42, 70, 0.28); }
+
+* { -webkit-tap-highlight-color: transparent; }
+html { scroll-behavior: smooth; }
+
+::selection {
+  background: rgba(212, 0, 63, 0.16);
+  color: var(--ltrt-navy);
+}
+
+/* ============================================================
+   MOTION LANGUAGE
+   ============================================================ */
+@keyframes slideUp {
+  from { transform: translateY(16px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes floatY {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes sparkle {
+  0%, 100% { opacity: 0.35; transform: scale(0.85); }
+  50% { opacity: 1; transform: scale(1.12); }
+}
+
+@keyframes modalPop {
+  from { transform: scale(0.96) translateY(10px); opacity: 0; }
+  to { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+@keyframes pageIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes dropIn {
+  from { opacity: 0; transform: translateY(-6px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes toastIn {
+  from { opacity: 0; transform: translateX(24px) scale(0.97); }
+  to { opacity: 1; transform: translateX(0) scale(1); }
+}
+
+@keyframes shimmer {
+  from { background-position: -180% 0; }
+  to { background-position: 180% 0; }
+}
+
+.ltrt-skeleton {
+  background: linear-gradient(
+    100deg,
+    rgba(255, 255, 255, 0.35) 20%,
+    rgba(255, 255, 255, 0.85) 45%,
+    rgba(255, 255, 255, 0.35) 70%
+  );
+  background-color: rgba(21, 42, 70, 0.06);
+  background-size: 180% 100%;
+  animation: shimmer 1.6s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
