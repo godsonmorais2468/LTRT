@@ -313,8 +313,8 @@ function StatsOverviewSlide({ deck, phase = 0 }) {
   ]
 
   const cellStyle = {
-    fontSize: 'clamp(6px,0.78cqw,12px)',
-    padding: 'clamp(2px,0.45cqh,6px) clamp(4px,0.8cqw,12px)',
+    fontSize: 'clamp(8.5px,1.1cqw,17px)',
+    padding: 'clamp(1px,0.22cqh,3.5px) clamp(5px,0.95cqw,14px)',
   }
 
   const sub = phase === 1
@@ -327,7 +327,7 @@ function StatsOverviewSlide({ deck, phase = 0 }) {
     <div className="relative flex-1 min-h-0 flex flex-col">
       <SlideTitle sub={sub}>Chapter Stats</SlideTitle>
 
-      <div className="flex-1 min-h-0 flex flex-col justify-center gap-[0.9%] overflow-hidden">
+      <div className="flex-1 min-h-0 flex flex-col justify-center gap-[0.35%] overflow-hidden">
         <div
           className="w-full rounded-[clamp(8px,1.2cqw,18px)] overflow-hidden"
           style={{ border: '1px solid rgba(179,0,27,0.16)', boxShadow: '0 8px 24px rgba(179,0,27,0.08)' }}
@@ -361,7 +361,7 @@ function StatsOverviewSlide({ deck, phase = 0 }) {
                       opacity: dim ? 0.4 : 1,
                     }}
                   >
-                    <td className="font-semibold text-[#152A46] truncate" style={cellStyle}>{s.label}</td>
+                    <td className="font-semibold text-[#152A46] truncate" style={{ ...cellStyle, fontSize: 'clamp(6.5px,0.85cqw,13px)' }}>{s.label}</td>
                     <td className="text-[#6E7E95] truncate" style={cellStyle}>{fmtValue(s, s.goal)}</td>
                     <td className="font-extrabold text-white truncate" style={{ ...cellStyle, background: 'rgba(14,138,96,0.88)' }}>{fmtValue(s, s.current)}</td>
                     <td className="text-[#6E7E95] truncate" style={cellStyle}>{fmtValue(s, s.previous)}</td>
@@ -375,11 +375,11 @@ function StatsOverviewSlide({ deck, phase = 0 }) {
           </table>
         </div>
 
-        <div className="flex gap-[2%] items-stretch mt-[1.6%]">
+        <div className="flex gap-[2%] items-stretch mt-[0.5%]">
           {/* Sad callout blurs this column; happy phase highlights it instead. */}
-          <div className="relative w-[58%] min-w-0">
+          <div className="relative flex-1 min-w-0">
             <div
-              className="flex flex-col gap-[1%] rounded-[clamp(8px,1cqw,16px)] transition-all duration-500"
+              className="flex flex-col gap-[0.6%] rounded-[clamp(8px,1cqw,16px)] transition-all duration-500"
               style={{
                 filter: phase === 2 ? 'blur(5px)' : 'none',
                 opacity: phase === 2 ? 0.4 : 1,
@@ -400,9 +400,9 @@ function StatsOverviewSlide({ deck, phase = 0 }) {
           </div>
 
           {/* Happy callout blurs this column; sad phase highlights it instead. */}
-          <div className="relative flex-1 min-w-0">
+          <div className="relative w-[58%] min-w-0">
             <div
-              className="flex flex-col gap-[1%] rounded-[clamp(8px,1cqw,16px)] transition-all duration-500"
+              className="flex flex-col gap-[0.6%] rounded-[clamp(8px,1cqw,16px)] transition-all duration-500"
               style={{
                 filter: phase === 1 ? 'blur(5px)' : 'none',
                 opacity: phase === 1 ? 0.4 : 1,
@@ -438,11 +438,11 @@ function CharacterCallout({ kind }) {
         className="flex flex-col items-center justify-center rounded-[clamp(10px,1.4cqw,22px)]"
         style={{ width: '92%', height: '92%', background: 'rgba(255,255,255,0.94)', border: `2px solid ${tint}`, boxShadow: '0 10px 30px rgba(21,42,70,0.14)' }}
       >
-        <div style={{ width: 'min(65%, clamp(56px,16cqw,220px))' }}>
+        <div style={{ width: 'min(52%, clamp(46px,13cqw,170px))' }}>
           <div className="w-full aspect-[12/13]">
             {kind === 'happy' ? <HappyCharacter /> : <SadCharacter />}
           </div>
-          <p className="font-extrabold text-center leading-tight mt-1" style={{ fontSize: 'clamp(11px,1.6cqw,28px)', color: kind === 'happy' ? '#0E8A60' : '#C42846' }}>
+          <p className="font-extrabold text-center leading-tight mt-0.5" style={{ fontSize: 'clamp(10px,1.4cqw,24px)', color: kind === 'happy' ? '#0E8A60' : '#C42846' }}>
             {kind === 'happy' ? 'Hurray!' : 'Needs work'}
           </p>
         </div>
@@ -457,17 +457,17 @@ function StatBox({ c }) {
     <div
       className="rounded-[clamp(7px,0.9cqw,14px)] text-center min-w-0"
       style={{
-        padding: 'clamp(3px,0.65cqh,9px) clamp(3px,0.7cqw,9px)',
+        padding: 'clamp(2px,0.4cqh,6.5px) clamp(4px,0.85cqw,11px)',
         background: c.accent ? 'rgba(124,58,237,0.12)' : 'rgba(255,255,255,0.85)',
         border: `1px solid ${c.accent ? 'rgba(124,58,237,0.35)' : 'rgba(179,0,27,0.14)'}`,
       }}
     >
-      <p className="uppercase tracking-[0.04em] text-[#6E7E95] truncate" style={{ fontSize: 'clamp(5.5px,0.64cqw,10px)' }}>
+      <p className="uppercase tracking-[0.04em] font-semibold text-[#6E7E95] truncate" style={{ fontSize: 'clamp(5px,0.58cqw,9px)' }}>
         {c.label}
       </p>
       <p
         className="font-extrabold leading-tight mt-1"
-        style={{ fontSize: 'clamp(8.5px,1.1cqw,17px)', color: c.color || (c.growth ? '#0E8A60' : '#152A46'), overflowWrap: 'break-word', wordBreak: 'break-word' }}
+        style={{ fontSize: 'clamp(11.5px,1.5cqw,23px)', color: c.color || (c.growth ? '#0E8A60' : '#152A46'), overflowWrap: 'break-word', wordBreak: 'break-word' }}
       >
         {c.value}{c.growth && c.value > 0 ? ' ▲' : ''}
       </p>
@@ -479,17 +479,17 @@ function ProgressCard({ label, pct, caption }) {
   return (
     <div
       className="h-full flex flex-col justify-center rounded-[clamp(8px,1cqw,16px)] min-w-0"
-      style={{ padding: 'clamp(4px,0.75cqh,11px) clamp(7px,1.1cqw,16px)', background: 'rgba(255,255,255,0.85)', border: '1px solid rgba(179,0,27,0.14)' }}
+      style={{ padding: 'clamp(2px,0.42cqh,7px) clamp(8px,1.3cqw,18px)', background: 'rgba(255,255,255,0.85)', border: '1px solid rgba(179,0,27,0.14)' }}
     >
-      <p className="font-bold text-[#152A46] truncate mb-1" style={{ fontSize: 'clamp(7.5px,0.95cqw,14px)' }}>{label}</p>
+      <p className="font-bold text-[#152A46] truncate mb-1" style={{ fontSize: 'clamp(10px,1.3cqw,19px)' }}>{label}</p>
       <div className="w-full rounded-full overflow-hidden" style={{ height: 'clamp(4px,0.65cqh,8px)', background: 'rgba(179,0,27,0.12)' }}>
         <div className="h-full rounded-full" style={{ width: `${pct}%`, background: 'linear-gradient(90deg,#19B985,#0E8A60)' }} />
       </div>
       <div className="flex justify-between mt-1">
-        <span className="font-bold" style={{ fontSize: 'clamp(6.5px,0.82cqw,12px)', color: '#0E8A60' }}>{pct}% Achieved</span>
-        <span className="text-[#6E7E95]" style={{ fontSize: 'clamp(6px,0.75cqw,11px)' }}>{100 - pct}% Remaining</span>
+        <span className="font-bold" style={{ fontSize: 'clamp(9px,1.15cqw,17px)', color: '#0E8A60' }}>{pct}% Achieved</span>
+        <span className="text-[#6E7E95]" style={{ fontSize: 'clamp(8px,1.05cqw,15px)' }}>{100 - pct}% Remaining</span>
       </div>
-      <p className="text-center font-extrabold mt-1 truncate" style={{ fontSize: 'clamp(8px,1.05cqw,16px)', color: '#B3001B' }}>{caption}</p>
+      <p className="text-center font-extrabold mt-1 truncate" style={{ fontSize: 'clamp(10.5px,1.4cqw,21px)', color: '#B3001B' }}>{caption}</p>
     </div>
   )
 }
