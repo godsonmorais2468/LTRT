@@ -290,10 +290,11 @@ export default function AppShell({ menu, brand = 'LTRT' }) {
 
             <button
               onClick={handleLogout}
-              className="hidden md:flex items-center gap-2 text-[14px] text-[var(--ltrt-text-secondary)] hover:text-[var(--ltrt-red)] font-medium px-3 py-2.5 rounded-[12px] hover:bg-[rgba(212,0,63,0.06)] transition-all duration-200 active:scale-95"
+              aria-label="Sign Out"
+              className="flex items-center gap-2 text-[14px] text-[var(--ltrt-text-secondary)] hover:text-[var(--ltrt-red)] font-medium px-2.5 py-2.5 sm:px-3 rounded-[12px] hover:bg-[rgba(212,0,63,0.06)] transition-all duration-200 active:scale-95"
             >
               <LogOut size={17} strokeWidth={1.9} />
-              <span>Sign Out</span>
+              <span className="hidden md:inline">Sign Out</span>
             </button>
           </div>
         </header>
