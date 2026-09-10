@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../../context/AuthContext'
 import { mockDashboard } from '../../data/mock'
 import { StatCard, SectionCard, PageHeader, TableHead, TableRow, tableHeadCellClass, tableCellClass } from '../../components/ui'
 import {
@@ -8,7 +7,6 @@ import {
 } from 'lucide-react'
 
 export default function Dashboard() {
-  const { user } = useAuth()
   const navigate = useNavigate()
 
   return (
@@ -34,7 +32,7 @@ export default function Dashboard() {
         meta="(Ver. 2 - 50)"
         subtitle={
           <>
-            Hi, Welcome <span className="font-semibold" style={{ color: 'var(--ltrt-gold)' }}>{user?.name || ''}</span>
+            Hi, Welcome <span className="font-semibold" style={{ color: 'var(--ltrt-red)' }}>MYSTICS</span>
           </>
         }
       />

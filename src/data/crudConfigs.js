@@ -109,7 +109,7 @@ export const groupheadConfig = {
     { key: 'type', label: 'Type', type: 'select', options: ['Asset', 'Liability', 'Income', 'Expense', 'Capital'] },
     statusField,
   ],
-  seed: seeds.grouphead,
+  seed: seeds.grouphead,  
 }
 
 export const ledgerConfig = {

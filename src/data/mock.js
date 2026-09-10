@@ -3,6 +3,16 @@
    Chapter names, head-table members and figures mirror the
    screens captured from the live BNI/LTRT app.
    ============================================================ */
+import rakheshPhoto from '../assets/Rakhesh R.jpeg'
+import bijuPhoto from '../assets/Biju Thomas.jpeg'
+import rijasPhoto from '../assets/Rijas Khan T.jpeg'
+import jyothiPhoto from '../assets/Jyothi Kannan.jpeg'
+import arunKPhoto from '../assets/Arun Karthikeyan.jpeg'
+import activity1Image from '../assets/Activity 1.jpeg'
+import activity2Image from '../assets/Activity 2.jpeg'
+import activity3Image from '../assets/Actvity 3.jpeg'
+import divyaPhoto from '../assets/mock-person-image2.png'
+import nithinPhoto from '../assets/mock-person-image3.png'
 
 export const mockRegions = [
   { id: 1, code: 'RG01', name: 'TRIVANDRUM', active: true },
@@ -439,13 +449,16 @@ export const mockTeamRows = [
    PRESENTATION DECK — content played by the slide show.
    TRIVANDRUM region only.
    ============================================================ */
+/* `total` is the cumulative figure for the LTRT period (vs `current`, which is
+   just this month) — drives the Chapter Stats table's Total column and the
+   Business Target progress bar. */
 export const mockDeckStats = [
-  { key: 'business', label: 'Business (TYFCB)', unit: '₹', goal: 20000000, previous: 3510924, current: 5538564 },
-  { key: 'visitors', label: 'Visitors Per Month', unit: '', goal: 10, previous: 12, current: 27 },
-  { key: 'referrals', label: 'Referrals', unit: '', goal: 50, previous: 73, current: 169 },
-  { key: 'memberAddition', label: 'Member Addition', unit: '', goal: 5, previous: 2, current: 5 },
-  { key: 'absenteeism', label: 'Absenteeism', unit: '%', goal: 0, previous: -2.10, current: -5.33 },
-  { key: 'memberDrops', label: 'Member Drops', unit: '', goal: 0, previous: 0, current: -2 },
+  { key: 'business', label: 'Business (TYFCB)', unit: '₹', goal: 120000000, previous: 11895785, current: 11745705, total: 63425438 },
+  { key: 'absenteeism', label: 'Absenteeism', unit: '%', goal: 0, previous: -2.02, current: -2.18, total: -12.76 },
+  { key: 'visitors', label: 'Visitors Per Month', unit: '', goal: 15, previous: 14, current: 16, total: 58 },
+  { key: 'memberAddition', label: 'Member Addition', unit: '', goal: 0, previous: 1, current: 0, total: 4 },
+  { key: 'memberDrops', label: 'Member Drops', unit: '', goal: 0, previous: 0, current: 0, total: -2 },
+  { key: 'referrals', label: 'Referrals', unit: '', goal: 500, previous: 729, current: 690, total: 3020 },
 ]
 
 export const mockDeck = {
@@ -453,31 +466,38 @@ export const mockDeck = {
   chapter: 'MYSTICS',
   month: 'October',
   year: '2026',
-  currentStrength: 18,
-  setGoal: 40,
+  currentStrength: 45,
+  setGoal: 60,
   headTable: [
-    { id: 1, name: 'Prakash Pillai', designation: 'President' },
-    { id: 2, name: 'Aswathy Nair', designation: 'Vice-President' },
-    { id: 3, name: 'Binu Chandran', designation: 'Secretary /Treasurer' },
+    { id: 1, name: 'Rakhesh R', designation: 'President', photo: rakheshPhoto },
+    { id: 2, name: 'Biju Thomas', designation: 'Vice-President', photo: bijuPhoto },
+    { id: 3, name: 'Rijas Khan T', designation: 'Secretary /Treasurer', photo: rijasPhoto },
   ],
   leadershipTeam: [
-    { id: 1, name: 'Sauparnika Puthur', designation: 'Membership Committee' },
-    { id: 2, name: 'Faisal A', designation: 'Visitor Host' },
-    { id: 3, name: 'Arun Kumar N R', designation: 'Mentor Coordinator' },
-    { id: 4, name: 'Aneesh', designation: 'Education Coordinator' },
-    { id: 5, name: 'Jose Shibu M R', designation: 'Growth Coordinator' },
-    { id: 6, name: 'Yoonus', designation: 'Event Coordinator' },
+    { id: 1, name: 'Dr. Jyothi Kannan', designation: 'Support Ambassador', photo: jyothiPhoto },
+    { id: 2, name: 'Arun Karthikeyan', designation: 'Support Director Consultant', photo: arunKPhoto },
   ],
   activities: [
-    { id: 1, title: 'Business Mixer 2026', description: 'Cross-chapter networking evening at Hotel Residency with 140 visitors.' },
-    { id: 2, title: 'Leadership Training', description: 'Full-day workshop for the incoming leadership team.' },
-    { id: 3, title: 'Visitors Day', description: 'Record 27 visitors hosted across the month.' },
-    { id: 4, title: 'CSR Blood Drive', description: 'Members and families donated 62 units with the district hospital.' },
+    {
+      id: 1, title: 'Member Place Visit',
+      description: "Members visited Jeevan's Netz Solutions, Santhosh Babu's Kingbird Security services and Dr Harikrishnan's Dental Home Dental care centres in July.",
+      image: activity1Image,
+    },
+    { id: 2, title: 'Mesmerise', description: '', image: activity2Image },
+    { id: 3, title: 'Green Confluence', description: '', image: activity3Image },
+  ],
+  upcomingEvents: [
+    'Head Table Handover Ceremony – 27th September.',
+    '₹25 Lakh Chapter Achievement Celebration.',
+    'International Networking Trip.',
+    'Member Business Shop Visit.',
+    'Unofficial Social Program.',
+    'Support for the New Head Table.',
   ],
   inductions: [
     { id: 1, name: 'Rahul Menon', organization: 'Menon Architects', category: 'Architecture' },
-    { id: 2, name: 'Divya Suresh', organization: 'Suresh Logistics', category: 'Logistics' },
-    { id: 3, name: 'Nithin Jose', organization: 'Jose Digital', category: 'Digital Marketing' },
+    { id: 2, name: 'Divya Suresh', organization: 'Suresh Logistics', category: 'Logistics', photo: divyaPhoto },
+    { id: 3, name: 'Nithin Jose', organization: 'Jose Digital', category: 'Digital Marketing', photo: nithinPhoto },
   ],
   conclusion: {
     mainHeading: 'Thank You',

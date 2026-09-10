@@ -11,7 +11,7 @@ import {
 } from '../../components/ui'
 import { useAuth } from '../../context/AuthContext'
 import { useDesignations } from '../../context/DesignationContext'
-import { mockSlidePreparations, mockHeadTables } from '../../data/mock'
+import { mockSlidePreparations, mockHeadTables, mockDeck } from '../../data/mock'
 import SlidePlayer, { PreviewSlide } from '../../components/SlidePlayer'
 
 const ENTRY_OPTIONS = [10, 25, 50, 100]
@@ -55,8 +55,12 @@ const blankMember = () => ({ id: nextMemberId++, checked: true, name: '', design
 const blankActivity = () => ({ id: nextActivityId++, title: '', description: '', file: '' })
 const blankInduction = () => ({ id: nextInductionId++, name: '', organization: '', category: '', photo: '' })
 
-/* The chapter's office bearers are already on record, so Head Table opens pre-filled. */
+/* The chapter's office bearers are already on record, so Head Table opens pre-filled —
+   using the same people (and photos) as the live presentation's Head Table slide. */
 const seedHeadTable = (chapter) => {
+  if (chapter?.toUpperCase() === mockDeck.chapter) {
+    return mockDeck.headTable.map((p) => ({ id: nextMemberId++, checked: true, name: p.name, designation: p.designation, photo: p.photo }))
+  }
   const head = mockHeadTables[chapter]
   if (!head) return [blankMember()]
   return [
@@ -66,16 +70,26 @@ const seedHeadTable = (chapter) => {
   ]
 }
 
+/* Same idea as seedHeadTable, for the Leadership Team tab. */
+const seedLeadershipTeam = (chapter) => {
+  if (chapter?.toUpperCase() === mockDeck.chapter) {
+    return mockDeck.leadershipTeam.map((p) => ({ id: nextMemberId++, checked: true, name: p.name, designation: p.designation, photo: p.photo }))
+  }
+  return []
+}
+
+const isImageSrc = (v) => typeof v === 'string' && /^(data:|https?:|\/)/.test(v)
+
 const blankChapterStats = () => {
   const rows = {}
   STAT_ROWS.forEach((s) => { rows[s.key] = '0' })
-  return { currentStrength: '', setGoal: '', rows }
+  return { currentStrength: '45', setGoal: '60', rows }
 }
 
 const blankData = (chapter) => ({
   intro: { html: '' },
   headTable: seedHeadTable(chapter),
-  leadershipTeam: [],
+  leadershipTeam: seedLeadershipTeam(chapter),
   chapterStats: blankChapterStats(),
   activities: [blankActivity()],
   newInductions: { skipped: false, entries: [blankInduction()] },
@@ -219,7 +233,13 @@ function Field({ label, children }) {
 /* ============================================================
    MEMBER CARD — used by Head Table + Leadership Team
    ============================================================ */
-function MemberCard({ row, designations, onChange, onRemove }) {
+/* Head Table / Leadership Team members come pre-loaded from chapter records, so
+   the card is a read-only display — big photo, plain text — not an edit form. A freshly
+   added blank member (no photo yet) still gets the editable fields so it can
+   actually be filled in. */
+function HeadTableCard({ row, designations, onChange, onRemove }) {
+  const hasPhoto = isImageSrc(row.photo)
+
   return (
     <div className="relative rounded-[16px] p-4" style={{ background: 'rgba(255,255,255,0.65)', border: '1px solid rgba(21,42,70,0.14)' }}>
       <button
@@ -239,20 +259,38 @@ function MemberCard({ row, designations, onChange, onRemove }) {
         />
         <span className="text-[12.5px] font-semibold text-[var(--ltrt-text-secondary)]">Name</span>
       </label>
-      <Input value={row.name} onChange={(e) => onChange({ ...row, name: e.target.value })} placeholder="Enter name" className="mb-3" />
 
-      <label className="block text-[12.5px] font-semibold text-[var(--ltrt-text-secondary)] mb-1.5">Designation</label>
-      {designations.length > 0 ? (
-        <Select value={row.designation} onChange={(e) => onChange({ ...row, designation: e.target.value })} className="mb-3">
-          <option value="">Select designation...</option>
-          {designations.map((d) => <option key={d.id} value={d.name}>{d.name}</option>)}
-        </Select>
+      {hasPhoto ? (
+        <>
+          <p className="text-[16px] font-bold text-[var(--ltrt-text)] mb-3">{row.name}</p>
+          <label className="block text-[12.5px] font-semibold text-[var(--ltrt-text-secondary)] mb-1.5">Designation</label>
+          <p className="text-[13px] font-bold uppercase tracking-[0.06em] mb-3" style={{ color: 'var(--ltrt-red)' }}>{row.designation}</p>
+          <label className="block text-[12.5px] font-semibold text-[var(--ltrt-text-secondary)] mb-1.5">Photo</label>
+          <img
+            src={row.photo}
+            alt={row.name}
+            className="w-full rounded-[12px] object-contain"
+            style={{ height: '170px', border: '2px solid rgba(212,0,63,0.35)', background: 'rgba(21,42,70,0.06)' }}
+          />
+        </>
       ) : (
-        <Input value={row.designation} onChange={(e) => onChange({ ...row, designation: e.target.value })} placeholder="Enter designation" className="mb-3" />
-      )}
+        <>
+          <Input value={row.name} onChange={(e) => onChange({ ...row, name: e.target.value })} placeholder="Enter name" className="mb-3" />
 
-      <label className="block text-[12.5px] font-semibold text-[var(--ltrt-text-secondary)] mb-1.5">Photo</label>
-      <FileUpload accept="image/*" value={row.photo} onChange={(name) => onChange({ ...row, photo: name })} />
+          <label className="block text-[12.5px] font-semibold text-[var(--ltrt-text-secondary)] mb-1.5">Designation</label>
+          {designations.length > 0 ? (
+            <Select value={row.designation} onChange={(e) => onChange({ ...row, designation: e.target.value })} className="mb-3">
+              <option value="">Select designation...</option>
+              {designations.map((d) => <option key={d.id} value={d.name}>{d.name}</option>)}
+            </Select>
+          ) : (
+            <Input value={row.designation} onChange={(e) => onChange({ ...row, designation: e.target.value })} placeholder="Enter designation" className="mb-3" />
+          )}
+
+          <label className="block text-[12.5px] font-semibold text-[var(--ltrt-text-secondary)] mb-1.5">Photo</label>
+          <FileUpload accept="image/*" value={row.photo} onChange={(name) => onChange({ ...row, photo: name })} />
+        </>
+      )}
     </div>
   )
 }
@@ -318,7 +356,7 @@ export default function SlidePreparation() {
       [activeTab]:
         activeTab === 'intro' || activeTab === 'upcoming' ? { html: '' } :
         activeTab === 'headTable' ? seedHeadTable(chapterName) :
-        activeTab === 'leadershipTeam' ? [] :
+        activeTab === 'leadershipTeam' ? seedLeadershipTeam(chapterName) :
         activeTab === 'chapterStats' ? blankChapterStats() :
         activeTab === 'activities' ? [blankActivity()] :
         activeTab === 'newInductions' ? { skipped: false, entries: [blankInduction()] } :
@@ -418,7 +456,7 @@ export default function SlidePreparation() {
               <h4 className="text-[19px] font-bold text-[var(--ltrt-navy)] mb-4">Head Table</h4>
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 mb-4">
                 {data.headTable.map((row) => (
-                  <MemberCard
+                  <HeadTableCard
                     key={row.id}
                     row={row}
                     designations={designations}
@@ -439,7 +477,7 @@ export default function SlidePreparation() {
               {data.leadershipTeam.length > 0 && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 mb-4">
                   {data.leadershipTeam.map((row) => (
-                    <MemberCard
+                    <HeadTableCard
                       key={row.id}
                       row={row}
                       designations={designations}
@@ -459,7 +497,6 @@ export default function SlidePreparation() {
             <div>
               <div className="flex flex-wrap items-center gap-3 mb-4">
                 <h4 className="text-[19px] font-bold text-[var(--ltrt-navy)]">Chapter Stats</h4>
-                <button type="button" className="text-[12.5px] font-semibold text-[var(--ltrt-red)] hover:underline">Click to view</button>
                 <span
                   className="ml-auto inline-flex items-center gap-4 px-4 py-1.5 rounded-full text-[12.5px] font-bold"
                   style={{ background: 'rgba(217,167,42,0.22)', color: '#7A5A12' }}
