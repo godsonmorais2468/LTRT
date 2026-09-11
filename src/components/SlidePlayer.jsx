@@ -296,24 +296,24 @@ function StatsOverviewSlide({ deck, phase = 0 }) {
 
   const membershipCards = [
     { label: 'Opening Membership', value: openingMembership },
-    { label: 'New Members Inducted', value: newInducted },
-    { label: 'Membership Drop', value: membershipDrop },
     { label: 'Current Membership', value: currentMembership, accent: true },
     { label: 'Target Membership', value: targetMembership },
-    { label: 'Net Growth', value: netGrowth, growth: true },
+    { label: 'New Members Inducted', value: newInducted },
+    { label: 'Membership Drop', value: membershipDrop },
+    { label: 'Net Growth', value: netGrowth, growth: true, big: true },
   ]
 
   const businessUp = business.current > business.previous
   const businessCards = [
+    { label: 'Goal', value: fmtValue(business, business.goal) },
+    { label: 'Total', value: fmtValue(business, business.total) },
+    { label: 'Comparison', value: businessUp ? 'Increased' : 'Decreased', color: businessUp ? '#0E8A60' : '#C42846' },
     { label: 'Previous', value: fmtValue(business, business.previous) },
     { label: 'Current', value: fmtValue(business, business.current), accent: true },
-    { label: 'Goal', value: fmtValue(business, business.goal) },
-    { label: 'Comparison', value: businessUp ? 'Increased' : 'Decreased', color: businessUp ? '#0E8A60' : '#C42846' },
-    { label: 'Total', value: fmtValue(business, business.total) },
   ]
 
   const cellStyle = {
-    fontSize: 'clamp(8.5px,1.1cqw,17px)',
+    fontSize: 'clamp(8px,1.02cqw,15.5px)',
     padding: 'clamp(1px,0.22cqh,3.5px) clamp(5px,0.95cqw,14px)',
   }
 
@@ -327,7 +327,7 @@ function StatsOverviewSlide({ deck, phase = 0 }) {
     <div className="relative flex-1 min-h-0 flex flex-col">
       <SlideTitle sub={sub}>Chapter Stats</SlideTitle>
 
-      <div className="flex-1 min-h-0 flex flex-col justify-center gap-[0.35%] overflow-hidden">
+      <div className="flex-1 min-h-0 flex flex-col justify-center gap-[0.22%] overflow-hidden">
         <div
           className="w-full rounded-[clamp(8px,1.2cqw,18px)] overflow-hidden"
           style={{ border: '1px solid rgba(179,0,27,0.16)', boxShadow: '0 8px 24px rgba(179,0,27,0.08)' }}
@@ -375,19 +375,19 @@ function StatsOverviewSlide({ deck, phase = 0 }) {
           </table>
         </div>
 
-        <div className="flex gap-[2%] items-stretch mt-[0.5%]">
+        <div className="flex gap-[2%] items-stretch mt-[1.1%]">
           {/* Sad callout blurs this column; happy phase highlights it instead. */}
           <div className="relative flex-1 min-w-0">
             <div
-              className="flex flex-col gap-[0.6%] rounded-[clamp(8px,1cqw,16px)] transition-all duration-500"
+              className="flex flex-col gap-[0.25%] rounded-[clamp(8px,1cqw,16px)] transition-all duration-500"
               style={{
                 filter: phase === 2 ? 'blur(5px)' : 'none',
                 opacity: phase === 2 ? 0.4 : 1,
                 boxShadow: phase === 1 ? 'inset 0 0 0 2px rgba(25,185,133,0.55), 0 10px 26px rgba(25,185,133,0.22)' : 'none',
-                transform: phase === 1 ? 'scale(1.015)' : 'scale(1)',
               }}
             >
-              <div className="grid grid-cols-3 gap-[0.8%]">
+              <p className="font-bold text-[#152A46] leading-none text-center" style={{ fontSize: 'clamp(11px,1.4cqw,20px)' }}>Membership Status</p>
+              <div className="grid grid-cols-3 gap-[0.5%]">
                 {membershipCards.map((c) => <StatBox key={c.label} c={c} />)}
               </div>
               <ProgressCard
@@ -402,15 +402,15 @@ function StatsOverviewSlide({ deck, phase = 0 }) {
           {/* Happy callout blurs this column; sad phase highlights it instead. */}
           <div className="relative w-[58%] min-w-0">
             <div
-              className="flex flex-col gap-[0.6%] rounded-[clamp(8px,1cqw,16px)] transition-all duration-500"
+              className="flex flex-col gap-[0.25%] rounded-[clamp(8px,1cqw,16px)] transition-all duration-500"
               style={{
                 filter: phase === 1 ? 'blur(5px)' : 'none',
                 opacity: phase === 1 ? 0.4 : 1,
                 boxShadow: phase === 2 ? 'inset 0 0 0 2px rgba(232,60,91,0.5), 0 10px 26px rgba(232,60,91,0.2)' : 'none',
-                transform: phase === 2 ? 'scale(1.015)' : 'scale(1)',
               }}
             >
-              <div className="grid grid-cols-3 gap-[0.8%]">
+              <p className="font-bold text-[#152A46] leading-none text-center" style={{ fontSize: 'clamp(11px,1.4cqw,20px)' }}>Revenue Status</p>
+              <div className="grid grid-cols-3 gap-[0.5%]">
                 {businessCards.map((c) => <StatBox key={c.label} c={c} />)}
               </div>
               <ProgressCard
@@ -442,10 +442,13 @@ function CharacterCallout({ kind }) {
           <div className="w-full aspect-[12/13]">
             {kind === 'happy' ? <HappyCharacter /> : <SadCharacter />}
           </div>
-          <p className="font-extrabold text-center leading-tight mt-0.5" style={{ fontSize: 'clamp(10px,1.4cqw,24px)', color: kind === 'happy' ? '#0E8A60' : '#C42846' }}>
-            {kind === 'happy' ? 'Hurray!' : 'Needs work'}
-          </p>
         </div>
+        <p
+          className="font-extrabold text-center leading-tight mt-0.5 whitespace-nowrap"
+          style={{ fontSize: kind === 'happy' ? 'clamp(10px,1.4cqw,24px)' : 'clamp(8px,1cqw,16px)', color: kind === 'happy' ? '#0E8A60' : '#C42846' }}
+        >
+          {kind === 'happy' ? 'Hurray!' : 'We will try better next time'}
+        </p>
       </div>
     </div>
   )
@@ -457,7 +460,7 @@ function StatBox({ c }) {
     <div
       className="rounded-[clamp(7px,0.9cqw,14px)] text-center min-w-0"
       style={{
-        padding: 'clamp(2px,0.4cqh,6.5px) clamp(4px,0.85cqw,11px)',
+        padding: 'clamp(1px,0.24cqh,3.8px) clamp(4px,0.85cqw,11px)',
         background: c.accent ? 'rgba(124,58,237,0.12)' : 'rgba(255,255,255,0.85)',
         border: `1px solid ${c.accent ? 'rgba(124,58,237,0.35)' : 'rgba(179,0,27,0.14)'}`,
       }}
@@ -467,7 +470,7 @@ function StatBox({ c }) {
       </p>
       <p
         className="font-extrabold leading-tight mt-1"
-        style={{ fontSize: 'clamp(11.5px,1.5cqw,23px)', color: c.color || (c.growth ? '#0E8A60' : '#152A46'), overflowWrap: 'break-word', wordBreak: 'break-word' }}
+        style={{ fontSize: c.big ? 'clamp(14px,1.85cqw,28px)' : 'clamp(11.5px,1.5cqw,23px)', color: c.color || (c.growth ? '#0E8A60' : '#152A46'), overflowWrap: 'break-word', wordBreak: 'break-word' }}
       >
         {c.value}{c.growth && c.value > 0 ? ' ▲' : ''}
       </p>
@@ -479,17 +482,17 @@ function ProgressCard({ label, pct, caption }) {
   return (
     <div
       className="h-full flex flex-col justify-center rounded-[clamp(8px,1cqw,16px)] min-w-0"
-      style={{ padding: 'clamp(2px,0.42cqh,7px) clamp(8px,1.3cqw,18px)', background: 'rgba(255,255,255,0.85)', border: '1px solid rgba(179,0,27,0.14)' }}
+      style={{ padding: 'clamp(1px,0.22cqh,3.6px) clamp(8px,1.3cqw,18px)', background: 'rgba(255,255,255,0.85)', border: '1px solid rgba(179,0,27,0.14)' }}
     >
-      <p className="font-bold text-[#152A46] truncate mb-1" style={{ fontSize: 'clamp(10px,1.3cqw,19px)' }}>{label}</p>
+      <p className="font-bold text-[#152A46] truncate mb-0.5" style={{ fontSize: 'clamp(11.5px,1.5cqw,22px)' }}>{label}</p>
       <div className="w-full rounded-full overflow-hidden" style={{ height: 'clamp(4px,0.65cqh,8px)', background: 'rgba(179,0,27,0.12)' }}>
         <div className="h-full rounded-full" style={{ width: `${pct}%`, background: 'linear-gradient(90deg,#19B985,#0E8A60)' }} />
       </div>
       <div className="flex justify-between mt-1">
-        <span className="font-bold" style={{ fontSize: 'clamp(9px,1.15cqw,17px)', color: '#0E8A60' }}>{pct}% Achieved</span>
+        <span className="font-bold" style={{ fontSize: 'clamp(8px,1.02cqw,15px)', color: '#0E8A60' }}>{pct}% Achieved</span>
         <span className="text-[#6E7E95]" style={{ fontSize: 'clamp(8px,1.05cqw,15px)' }}>{100 - pct}% Remaining</span>
       </div>
-      <p className="text-center font-extrabold mt-1 truncate" style={{ fontSize: 'clamp(10.5px,1.4cqw,21px)', color: '#B3001B' }}>{caption}</p>
+      <p className="text-center font-extrabold mt-1 truncate" style={{ fontSize: 'clamp(9.5px,1.25cqw,19px)', color: '#B3001B' }}>{caption}</p>
     </div>
   )
 }
