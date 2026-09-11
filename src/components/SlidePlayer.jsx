@@ -330,7 +330,7 @@ function StatsOverviewSlide({ deck, phase = 0 }) {
       <div className="flex-1 min-h-0 flex flex-col justify-center gap-[0.22%] overflow-hidden">
         <div
           className="w-full rounded-[clamp(8px,1.2cqw,18px)] overflow-hidden"
-          style={{ border: '1px solid rgba(179,0,27,0.16)', boxShadow: '0 8px 24px rgba(179,0,27,0.08)' }}
+          style={{ marginTop: '-3.2%', border: '1px solid rgba(179,0,27,0.16)', boxShadow: '0 8px 24px rgba(179,0,27,0.08)' }}
         >
           <table className="w-full border-collapse" style={{ tableLayout: 'fixed' }}>
             <thead>
